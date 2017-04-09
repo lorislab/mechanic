@@ -1,0 +1,11 @@
+<changeLog
+        xmlns="http://www.lorislab.org/mechanic/mechanic"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"        
+        xsi:schemaLocation="http://www.lorislab.org/mechanic/mechanic http://www.lorislab.org/mechanic/mechanic_1_0.xsd">
+
+       
+        <change id="child1-1" author="test" >
+            <cli file="child1.cli" relativePath="true" />
+        </change>
+
+</changeLog>

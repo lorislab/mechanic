@@ -1,0 +1,13 @@
+<changeLog
+        xmlns="http://www.lorislab.org/mechanic/mechanic"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"        
+        xsi:schemaLocation="http://www.lorislab.org/mechanic/mechanic http://www.lorislab.org/mechanic/mechanic_1_0.xsd">
+
+        <change id="child2-1" author="test" >
+            <cli file="child2.cli" relativePath="true" />
+        </change>
+        
+        <change id="child2-2" author="test" profile="profile-test">
+            <cli file="child2_1.cli" relativePath="true" />
+        </change>        
+</changeLog>

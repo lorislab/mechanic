@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.lorislab.org/mechanic/mechanic" 
+            targetNamespace="http://www.lorislab.org/mechanic/mechanic"
+            elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.2" xml:lang="en">
+
+    <xsd:annotation>
+        <xsd:documentation>
+            @(#)mechanic_1_0.xsd  1.0  March 19 2017
+        </xsd:documentation>
+    </xsd:annotation>
+  
+    <xsd:annotation>
+        <xsd:documentation>
+            Copyright (c) 2017, www.lorislab.org. All rights reserved.
+        </xsd:documentation>
+    </xsd:annotation>
+
+    <!--  Attributes for change  -->
+    <xsd:attributeGroup name="changeAttributes">
+        <xsd:attribute name="id" type="xsd:string" use="required"/>
+        <xsd:attribute name="author" type="xsd:string" use="required"/>
+        <xsd:attribute name="profile" type="xsd:string"/>
+        <xsd:attribute name="batch" type="xsd:boolean" default="true" />
+    </xsd:attributeGroup>
+
+    <!-- File -->
+    <xsd:complexType name="FileType">
+        <xsd:attribute name="file" type="xsd:string" use="required" />
+        <xsd:attribute name="relativePath" type="xsd:boolean" />
+    </xsd:complexType>
+
+    <!-- Change logs -->
+    <xsd:element name="changeLog">
+        <xsd:complexType>
+            <xsd:annotation>
+                <xsd:documentation>
+                    The list of changes.
+                </xsd:documentation>
+            </xsd:annotation>                          
+            <xsd:sequence>  
+                <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                    <!--  include  -->
+                    <xsd:element name="include" minOccurs="0" maxOccurs="unbounded" type="FileType"></xsd:element>
+                    <!-- change -->
+                    <xsd:element name="change" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:choice>
+                                    <xsd:element name="cli" minOccurs="0" maxOccurs="unbounded" type="FileType"></xsd:element>                                    
+                                </xsd:choice>
+                            </xsd:sequence>
+                            <xsd:attributeGroup ref="changeAttributes"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>    
+</xsd:schema>

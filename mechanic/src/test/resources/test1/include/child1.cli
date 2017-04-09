@@ -1,0 +1,1 @@
+${server_group}/system-property=test-child1:add(value="${test_child1}")
