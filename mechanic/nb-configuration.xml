@@ -10,6 +10,8 @@ Without this configuration present, some functionality in the IDE may be limited
         <configurations>
             <configuration id="ServerVersion" profiles=""/>
             <configuration id="showProfiles" profiles=""/>
+            <configuration id="UpdateCli" profiles=""/>
+            <configuration id="Validate" profiles=""/>
         </configurations>
     </config-data>
 </project-shared-configuration>
