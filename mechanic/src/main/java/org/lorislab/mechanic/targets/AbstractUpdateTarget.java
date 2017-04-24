@@ -50,22 +50,22 @@ public abstract class AbstractUpdateTarget implements ExecutionTarget {
     private static final Charset CHAR_SET = Charset.forName("UTF-8");
 
     private static final Pattern LTRIM = Pattern.compile("\\s+$");
-    
+
     protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     protected abstract Set<String> processChanges(Parameters parameters, List<ChangeData> changes, Properties properties);
-    
+
     protected void validateParameters(Parameters parameters) {
-        
+
     }
-    
+
     protected void validateUsedKeys(Set<String> usedKeys, Properties properties) {
-        
+
     }
-    
+
     @Override
     public void execute(MechanicApplication app, Parameters parameters) {
-        
+
         // validate special parameters
         validateParameters(parameters);
 
@@ -81,32 +81,32 @@ public abstract class AbstractUpdateTarget implements ExecutionTarget {
         if (changes == null || changes.isEmpty()) {
             LOGGER.log(Level.FINE, "No changes found for the update");
         } else {
-            
+
             // process changes
             Set<String> usedKeys = processChanges(parameters, changes, properties);
-            
+
             // check not used keys in the CLI scripts
             validateUsedKeys(usedKeys, properties);
         }
-    } 
-    
+    }
+
     protected Properties checkProperties(Parameters parameters) {
 
         // load cli template properties
-        LOGGER.log(Level.FINE, "Load cli template properties: {0}", parameters.getTemplate());        
-        Properties templateProperites = FileUtil.loadProperties(parameters.getTemplate());               
+        LOGGER.log(Level.FINE, "Load cli template properties: {0}", parameters.getTemplate());
+        Properties templateProperites = FileUtil.loadProperties(parameters.getTemplate());
 
         // check the cli properties
         Properties properties = templateProperites;
-        if (parameters.getProperties()== null) {
+        if (parameters.getProperties() == null) {
             LOGGER.fine("The cli  properties are null switch to the template properties for the cli scripts.");
-        } else {        
+        } else {
             LOGGER.log(Level.FINE, "Load cli properties: {0}", parameters.getProperties());
-            
+
             if (!parameters.isSkipTemplatePropertiesCheck() && parameters.getProperties().equals(parameters.getTemplate())) {
                 throw new RuntimeException("The template and properties files are the same!");
-            }            
-            properties = FileUtil.loadProperties(parameters.getProperties());                        
+            }
+            properties = FileUtil.loadProperties(parameters.getProperties());
         }
 
         // diff the properties
@@ -115,20 +115,25 @@ public abstract class AbstractUpdateTarget implements ExecutionTarget {
         if (!temp.isEmpty()) {
             Console.error("Missing properties:");
             temp.forEach((item) -> {
-                Console.info("[ + ] {0}={1}", item, templateProperites.getProperty(item));
+                Console.error("[ + ] {0}={1}", item, templateProperites.getProperty(item));
             });
-            return null;
+            throw new RuntimeException("Missing properties!!");
         }
 
         Set<String> prop = new HashSet<>(properties.stringPropertyNames());
         prop.removeAll(templateProperites.stringPropertyNames());
         if (!prop.isEmpty()) {
-            Console.warn("Deprecated properties:");
-            for (String item : prop) {
-                Console.info("[ - ] {0}={1}", item, properties.getProperty(item));
-            }
-            if (!parameters.isSkipPropWarn()) {
-                return null;
+            if (parameters.isSkipPropWarn()) {
+                Console.warn("Deprecated properties:");
+                for (String item : prop) {
+                    Console.warn("[ - ] {0}={1}", item, properties.getProperty(item));
+                }
+            } else {
+                Console.error("Deprecated properties:");
+                for (String item : prop) {
+                    Console.error("[ - ] {0}={1}", item, properties.getProperty(item));
+                }
+                throw new RuntimeException("Deprecated properties found! To skip this validation use the --skipPropWarn parameter");                
             }
         }
 
@@ -152,7 +157,7 @@ public abstract class AbstractUpdateTarget implements ExecutionTarget {
         } catch (IOException e) {
             throw new RuntimeException("Error reading the cli file: " + cli, e);
         }
-        
+
         return result;
     }
 
