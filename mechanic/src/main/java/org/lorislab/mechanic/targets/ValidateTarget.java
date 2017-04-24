@@ -45,7 +45,7 @@ public class ValidateTarget extends AbstractUpdateTarget {
         if (!usedKeys.isEmpty()) {
             Console.warn("Deprecated template properties:");
             usedKeys.forEach((item) -> {
-                Console.info("[ - ] {0}={1}", item, properties.getProperty(item));
+                Console.warn("[ - ] {0}={1}", item, properties.getProperty(item));
             });
         }
     }

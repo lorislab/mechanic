@@ -6,6 +6,7 @@
        
         <change id="child1-1" author="test" >
             <cli file="child1.cli" relativePath="true" />
+            <!--<cli file="child1_error.cli" relativePath="true" />-->
         </change>
 
 </changeLog>

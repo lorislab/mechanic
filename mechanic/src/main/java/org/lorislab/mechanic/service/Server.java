@@ -35,25 +35,40 @@ import org.lorislab.mechanic.app.Parameters;
 import org.lorislab.mechanic.logger.LoggerFactory;
 
 /**
+ * The WILDFLY server client.
  *
  * @author Andrej Petras
  */
 public class Server implements AutoCloseable {
 
+    /**
+     * The logger for this class.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(Server.class);
 
+    /**
+     * The command context.
+     */
     private CommandContext cmdCtx = null;
 
+    /**
+     * The embedded flag.
+     */
     private final boolean embedded;
 
+    /**
+     * The default constructor.
+     *
+     * @param parameters the parameters.
+     */
     public Server(Parameters parameters) {
-        this(parameters.getServerUrl(), 
-                parameters.getServerUser(), 
+        this(parameters.getServerUrl(),
+                parameters.getServerUser(),
                 parameters.getServerPassword(),
                 parameters.getServerClientBind(),
                 parameters.getServerClientTimeout());
     }
-    
+
     public Server(String url, String username, String password, String bind, Integer timeout) {
         if (url.startsWith("http-remoting")) {
             connect(url, username, password, bind, timeout);
@@ -204,7 +219,6 @@ public class Server implements AutoCloseable {
     public void close() throws IOException {
         if ((cmdCtx != null)) {
             cmdCtx.terminateSession();
-            //return cmdCtx.getExitCode();
         }
     }
 
