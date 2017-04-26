@@ -39,8 +39,7 @@ public class Parameters {
      * The change log file.
      */
     @Parameter(
-            name = "changeLogFile",
-            description = "The path to the change log file"
+            name = "changeLogFile"
     )
     private Path changeLogFile;
 
@@ -48,8 +47,7 @@ public class Parameters {
      * The configuration file.
      */
     @Parameter(
-            name = "config",
-            description = "The mechanic configuration file"
+            name = "config"
     )
     private Path config;
 
@@ -58,8 +56,7 @@ public class Parameters {
      */
     @Parameter(
             name = "properties",
-            property = true,
-            description = "The cli script properties"
+            property = true
     )
     private Path properties;
 
@@ -68,8 +65,7 @@ public class Parameters {
      */
     @Parameter(
             name = "template",
-            property = true,
-            description = "The cli script template properties"
+            property = true
     )
     private Path template;
 
@@ -78,8 +74,7 @@ public class Parameters {
      */
     @Parameter(
             name = "skipTemplatePropertiesCheck",
-            property = true,
-            description = "Skip the validation for same properties and template file"
+            property = true
     )    
     private boolean skipTemplatePropertiesCheck;
     
@@ -88,8 +83,7 @@ public class Parameters {
      */
     @Parameter(
             name = "serverUrl",
-            property = true,
-            description = "The server URL"
+            property = true
     )
     private String serverUrl;
 
@@ -98,8 +92,7 @@ public class Parameters {
      */
     @Parameter(
             name = "serverUser",
-            property = true,
-            description = "The server connection user name"
+            property = true
     )
     private String serverUser;
 
@@ -108,8 +101,7 @@ public class Parameters {
      */
     @Parameter(
             name = "serverPassword",
-            property = true,
-            description = "The server connection password"
+            property = true
     )
     private String serverPassword;
 
@@ -118,8 +110,7 @@ public class Parameters {
      */
     @Parameter(
             name = "serverClientBind",
-            property = true,
-            description = "The server client binding"
+            property = true
     )
     private String serverClientBind;
 
@@ -128,8 +119,7 @@ public class Parameters {
      */
     @Parameter(
             name = "serverClientTimeout",
-            property = true,
-            description = "The server client timeout"
+            property = true
     )
     private Integer serverClientTimeout;
 
@@ -138,8 +128,7 @@ public class Parameters {
      */
     @Parameter(
             name = "profiles",
-            property = true,
-            description = "The list of change set profiles"
+            property = true
     )
     private List<String> profiles = new ArrayList<>();
 
@@ -148,8 +137,7 @@ public class Parameters {
      */
     @Parameter(
             name = "dbUrl",
-            property = true,
-            description = "The database for changes"
+            property = true
     )
     private String dbUrl = "jdbc:h2:~/mechanic";
 
@@ -158,8 +146,7 @@ public class Parameters {
      */
     @Parameter(
             name = "dbUser",
-            property = true,
-            description = "The database user"
+            property = true
     )
     private String dbUser = "sa";
 
@@ -168,8 +155,7 @@ public class Parameters {
      */
     @Parameter(
             name = "dbPassword",
-            property = true,
-            description = "The database password"
+            property = true
     )
     private String dbPassword = "sa";
 
@@ -178,8 +164,7 @@ public class Parameters {
      */
     @Parameter(
             name = "dbLogTable",
-            property = true,
-            description = "The database log table"
+            property = true
     )
     private String dbLogTable = "MECHANIC_LOG";
 
@@ -188,8 +173,7 @@ public class Parameters {
      */
     @Parameter(
             name = "dbSqlWhere",
-            property = false,
-            description = "Show the history table by the 'WHERE' statment"
+            property = false
     )
     private String dbSqlWhere;
 
@@ -198,8 +182,7 @@ public class Parameters {
      */
     @Parameter(
             name = "dbCleanTable",
-            property = false,
-            description = "The history table to be clean up"
+            property = false
     )
     private String dbCleanTable;
 
@@ -208,8 +191,7 @@ public class Parameters {
      */
     @Parameter(
             name = "version",
-            property = false,
-            description = "Show the version of the tool"
+            property = false
     )
     private boolean version;
 
@@ -218,8 +200,7 @@ public class Parameters {
      */
     @Parameter(
             name = "help", 
-            property = false,
-            description = "Show this help"
+            property = false
     )
     private boolean help;
 
@@ -228,8 +209,7 @@ public class Parameters {
      */
     @Parameter(
             name = "skipPropWarn", 
-            property = false,
-            description = "Skip properties diff warnings"
+            property = false
     )
     private boolean skipPropWarn;
 
@@ -238,8 +218,7 @@ public class Parameters {
      */
     @Parameter(
             name = "debug", 
-            property = false,
-            description = "Show the debug logs"
+            property = false
     )
     private boolean debug;
 }

@@ -36,7 +36,7 @@ import org.lorislab.mechanic.logger.LoggerFactory;
  *
  * @author Andrej Petras
  */
-@Target(name = "showProfiles", description = "Show the list of used profiles",
+@Target(name = "showProfiles",
         requeredParameters = {
             "changeLogFile"
         }

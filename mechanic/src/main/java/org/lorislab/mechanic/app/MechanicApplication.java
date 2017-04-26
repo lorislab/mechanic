@@ -94,7 +94,6 @@ public class MechanicApplication implements Application {
             if (target != null) {
                 ExecutionTargetMetaData ed = new ExecutionTargetMetaData();
                 ed.setName(target.name());
-                ed.setDescription(target.description());
                 ed.setTarget(service);
                 String[] rp = target.requeredParameters();
                 if (rp != null && rp.length > 0) {
@@ -117,7 +116,6 @@ public class MechanicApplication implements Application {
                         ParameterMetaData pd = new ParameterMetaData();
                         pd.setName(ano.name());
                         pd.setParameter("--" + ano.name());
-                        pd.setDescription(ano.description());
                         pd.setProperty(ano.property());
                         pd.setField(field);
 

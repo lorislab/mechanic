@@ -9,9 +9,10 @@ Without this configuration present, some functionality in the IDE may be limited
     <config-data xmlns="http://www.netbeans.org/ns/maven-config-data/1">
         <configurations>
             <configuration id="ServerVersion" profiles=""/>
-            <configuration id="showProfiles" profiles=""/>
             <configuration id="UpdateCli" profiles=""/>
             <configuration id="Validate" profiles=""/>
+            <configuration id="showProfiles" profiles=""/>
+            <configuration id="Help" profiles=""/>
         </configurations>
     </config-data>
 </project-shared-configuration>
