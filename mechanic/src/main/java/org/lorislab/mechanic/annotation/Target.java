@@ -40,13 +40,6 @@ public @interface Target {
     String name();
 
     /**
-     * The description of the target.
-     *
-     * @return the target description.
-     */
-    String description() default "";
-
-    /**
      * The list of required parameters.
      *
      * @return list of required parameters.

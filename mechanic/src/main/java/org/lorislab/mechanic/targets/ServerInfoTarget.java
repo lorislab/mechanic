@@ -15,7 +15,6 @@ import org.lorislab.mechanic.service.Server;
  * @author Andrej Petras
  */
 @Target(name = "serverInfo",
-        description = "Show the server version",
         requeredParameters = {
             "serverUrl"
         }

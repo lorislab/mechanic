@@ -32,7 +32,7 @@ import org.lorislab.mechanic.logger.Console;
  *
  * @author Andrej Petras
  */
-@Target(name = "validate", description = "Validate the properties",
+@Target(name = "validate",
         requeredParameters = {
             "changeLogFile", "template", "properties"
         }

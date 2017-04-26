@@ -17,6 +17,7 @@ package org.lorislab.mechanic.targets;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.kohsuke.MetaInfServices;
@@ -57,8 +58,9 @@ public class DefaultTarget implements ExecutionTarget {
         if (targets != null) {
             for (int i = 0; i < targets.size(); i++) {
                 ExecutionTargetMetaData target = targets.get(i);
-                if (target.getDescription() != null && !target.getDescription().isEmpty()) {
-                    Console.info(String.format("%4s %-20s %-15s", "", target.getName(), target.getDescription()));
+                if (target.getName() != null && !target.getName().isEmpty()) {
+                    ResourceBundle bundle = ResourceBundle.getBundle(target.getTarget().getClass().getName());
+                    Console.info(String.format("%4s %-20s %-15s", "", target.getName(), bundle.getString("description")));
                 }
             }
         }
@@ -66,11 +68,13 @@ public class DefaultTarget implements ExecutionTarget {
         Console.info("Parameters:");
 
         Parameters pa = new Parameters();
+        ResourceBundle paBundle = ResourceBundle.getBundle(Parameters.class.getName());
+        
         List<ParameterMetaData> params = app.getParameters();
 
         for (int i = 0; i < params.size(); i++) {
             ParameterMetaData p = params.get(i);
-            Console.info(String.format("%4s %-20s %-15s", "", p.getParameter(), p.getDescription()));
+            Console.info(String.format("%4s %-20s %-15s", "", p.getParameter(), paBundle.getString(p.getName())));
             Field f = p.getField();
             f.setAccessible(true);
             try {

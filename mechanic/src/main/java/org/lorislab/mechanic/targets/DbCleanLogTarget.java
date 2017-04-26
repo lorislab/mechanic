@@ -27,7 +27,6 @@ import org.lorislab.mechanic.service.Database;
  * @author Andrej Petras
  */
 @Target(name = "dbCleanLog",
-        description = "Show the change log history information",
         requeredParameters = {
             "dbUrl", "dbUser", "dbPassword","dbLogTable","dbCleanTable"
         }

@@ -36,7 +36,6 @@ import org.lorislab.mechanic.logger.Console;
  * @author Andrej Petras
  */
 @Target(name = "updateCli",
-        description = "Show the cli for the update of the server",
         requeredParameters = {
             "changeLogFile", "template", "dbUrl", "dbUser", "dbPassword", "dbLogTable", "properties"
         }

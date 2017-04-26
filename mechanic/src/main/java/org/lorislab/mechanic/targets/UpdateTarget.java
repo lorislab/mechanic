@@ -1,6 +1,5 @@
 package org.lorislab.mechanic.targets;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Date;
 import java.util.HashSet;
@@ -26,7 +25,6 @@ import org.lorislab.mechanic.util.VersionUtil;
  * @author Andrej Petras
  */
 @Target(name = "update",
-        description = "Execute the update of the server",
         requeredParameters = {
             "changeLogFile", "serverUrl", "dbUrl", "dbUser", "dbPassword", "dbLogTable", "template", "properties"
         }

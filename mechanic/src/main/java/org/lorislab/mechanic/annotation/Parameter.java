@@ -47,11 +47,4 @@ public @interface Parameter {
      */
     boolean property() default false;
 
-    /**
-     * The parameter descriptions.
-     *
-     * @return the descriptions of the parameter.
-     */
-    String description() default "";
-
 }

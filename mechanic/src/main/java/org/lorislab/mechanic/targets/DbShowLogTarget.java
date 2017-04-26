@@ -31,7 +31,6 @@ import org.lorislab.mechanic.logger.Console;
  * @author Andrej Petras
  */
 @Target(name = "dbShowLog",
-        description = "Show the change log history information",
         requeredParameters = {
             "dbUrl", "dbUser", "dbPassword", "dbLogTable"
         }

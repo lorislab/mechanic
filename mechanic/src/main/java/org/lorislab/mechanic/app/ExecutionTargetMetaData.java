@@ -36,11 +36,6 @@ public class ExecutionTargetMetaData {
     private String name;
 
     /**
-     * The description.
-     */
-    private String description;
-
-    /**
      * The execution target instance.
      */
     private ExecutionTarget target;

@@ -48,11 +48,6 @@ public class ParameterMetaData {
     private boolean property;
 
     /**
-     * The description.
-     */
-    private String description;
-
-    /**
      * The corresponding field of the java object.
      */
     private Field field;
