@@ -41,12 +41,12 @@
     <!-- SystemPropertyType -->
     <xsd:complexType name="SystemPropertyType">
         <xsd:attribute name="name" type="xsd:string" use="required" />
-        <xsd:attribute name="type" type="SystemPropertyValueType" default="SERVER-GROUP" />
+        <xsd:attribute name="type" type="SystemPropertyValueType" />
         <xsd:attribute name="type-value" type="xsd:string" />
     </xsd:complexType>
 
-    <!-- ChangeSystemPropertyType -->
-    <xsd:complexType name="ChangeSystemPropertyType">
+    <!-- AddSystemPropertyType -->
+    <xsd:complexType name="AddSystemPropertyType">
         <xsd:complexContent>
             <xsd:extension base="SystemPropertyType">
                 <xsd:attribute name="value" type="xsd:string" use="required" />
@@ -54,6 +54,16 @@
         </xsd:complexContent>
     </xsd:complexType>
 
+    <!-- UpdateSystemPropertyType -->
+    <xsd:complexType name="UpdateSystemPropertyType">
+        <xsd:complexContent>
+            <xsd:extension base="SystemPropertyType">
+                <xsd:attribute name="value" type="xsd:string" use="required" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    
     <!-- Change logs -->
     <xsd:element name="changeLog">
         <xsd:complexType>
@@ -71,11 +81,7 @@
                         <xsd:complexType>
                             <xsd:sequence>
                                 <xsd:choice>
-                                    <xsd:element name="cli" minOccurs="0" maxOccurs="unbounded" type="FileType" />
-                                    <!-- SYSTEM PROPERTY -->
-                                    <xsd:element name="addSystemProperty" minOccurs="0" maxOccurs="unbounded" type="ChangeSystemPropertyType" /> 
-                                    <xsd:element name="removeSystemProperty" minOccurs="0" maxOccurs="unbounded" type="SystemPropertyType" />
-                                    <xsd:element name="updateSystemProperty" minOccurs="0" maxOccurs="unbounded" type="ChangeSystemPropertyType" />                                  
+                                    <xsd:group ref="children" minOccurs="0" maxOccurs="unbounded"/>                            
                                 </xsd:choice>
                             </xsd:sequence>
                             <xsd:attributeGroup ref="changeAttributes"/>
@@ -84,5 +90,16 @@
                 </xsd:choice>
             </xsd:sequence>
         </xsd:complexType>
-    </xsd:element>    
+    </xsd:element> 
+    
+    <xsd:group name="children">
+        <xsd:choice>
+            <xsd:element name="cli" minOccurs="0" maxOccurs="unbounded" type="FileType" />
+            <!-- SYSTEM PROPERTY -->
+            <xsd:element name="addSystemProperty" minOccurs="0" maxOccurs="unbounded" type="AddSystemPropertyType" /> 
+            <xsd:element name="removeSystemProperty" minOccurs="0" maxOccurs="unbounded" type="SystemPropertyType" />
+            <xsd:element name="updateSystemProperty" minOccurs="0" maxOccurs="unbounded" type="UpdateSystemPropertyType" />              
+        </xsd:choice>          
+    </xsd:group>
+
 </xsd:schema>

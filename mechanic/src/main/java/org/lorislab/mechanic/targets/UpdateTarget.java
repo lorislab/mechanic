@@ -14,6 +14,8 @@ import org.lorislab.mechanic.annotation.Target;
 import org.lorislab.mechanic.app.ExecutionTarget;
 import org.lorislab.mechanic.app.Parameters;
 import org.lorislab.mechanic.data.ChangeData;
+import org.lorislab.mechanic.data.ExpressionDataService;
+import org.lorislab.mechanic.data.elements.ChangeDataElement;
 import org.lorislab.mechanic.service.ChangeLogHistory;
 import org.lorislab.mechanic.service.Database;
 import org.lorislab.mechanic.logger.Console;
@@ -43,39 +45,39 @@ public class UpdateTarget extends AbstractUpdateTarget {
 
             Map<String, String> checkSums = db.selectChangeLogHistoryCheckSum();
             boolean found = false;
-            
+
             for (ChangeData change : changes) {
 
                 LOGGER.log(Level.FINE, "[{0}] BEGIN author: {1} profile: {2}", new Object[]{change.getId(), change.getAuthor(), change.getProfile()});
 
                 if (checkSums.containsKey(change.getId())) {
                     LOGGER.log(Level.FINE, "[{0}] The change already apply.", new Object[]{change.getId()});
-                } else {                                     
-                    List<Path> clis = change.getCliFiles();
-                    
+                } else {
+                    List<ChangeDataElement> elements = change.getElements();
                     // creata database history log
                     ChangeLogHistory chlh = create(change);
                     db.insertChangeLogHistory(chlh);
-                    
+
                     List<String> content = new LinkedList<>();
                     content.add("# Change: " + change.getId() + " profile: " + change.getProfile());
-                    
-                    try {
-                        if (clis == null || clis.isEmpty()) {
-                            LOGGER.log(Level.FINE, "[{0}] no CLI files define in the change");                       
-                            content.add("# No cli files ");
-                        } else {                            
+
+                    try {                        
+                        if (elements == null || elements.isEmpty()) {
+                            LOGGER.log(Level.FINE, "[{0}] no CLI elements define in the change", change.getId());
+                            content.add("# No cli elements ");
+                        } else {
                             found = true;
-                            
+
                             if (change.isBatch()) {
                                 content.add("batch");
                             }
 
-                            for (Path cli : clis) {
-                                // load the content of the CLI script
-                                content.add("# File: " + cli);
-                                List<String> tmp = loadCli(cli, properties, propertyNames, usedKeys);
-                                content.addAll(tmp);
+                            for (ChangeDataElement element : elements) {
+                                List<String> lines = element.createCli();
+                                for (String line : lines) {
+                                    String tmp = ExpressionDataService.processExpressions(line, properties, new HashSet<>(propertyNames), usedKeys);
+                                    content.add(tmp);
+                                }
                             }
 
                             if (change.isBatch()) {
@@ -85,10 +87,10 @@ public class UpdateTarget extends AbstractUpdateTarget {
                             // execute the CLI script
                             server.processCommands(content);
                         }
-                        
+
                         // commit history log in the database
-                        db.commit();                        
-                        Console.info("Execute change {0} success", change.getId());                        
+                        db.commit();
+                        Console.info("Execute change {0} success", change.getId());
                     } catch (Exception ex) {
                         db.rollback();
 
@@ -96,10 +98,10 @@ public class UpdateTarget extends AbstractUpdateTarget {
                         Console.info("- ERROR -------------------------------------------------------");
                         Console.info("Change:  {0}", change.getId());
                         Console.info("Error: {0}", ex.getMessage());
-                        if (clis != null && !clis.isEmpty()) {
-                            Console.info("Files:");
-                            clis.forEach((cli) -> {
-                                Console.info(" - {0}", cli);
+                        if (elements != null && !elements.isEmpty()) {
+                            Console.info("Elements:");
+                            elements.forEach((element) -> {
+                                Console.info(" - {0}", element.getDebugLog());
                             });
                         } else {
                             Console.info("Files: is empty!");
@@ -124,7 +126,7 @@ public class UpdateTarget extends AbstractUpdateTarget {
             }
             if (!found) {
                 Console.info("No changes found");
-            }            
+            }
         } catch (Exception ex) {
             throw new RuntimeException("Could not close the database!", ex);
         }

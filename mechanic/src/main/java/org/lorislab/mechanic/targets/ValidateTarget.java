@@ -26,6 +26,8 @@ import org.lorislab.mechanic.annotation.Target;
 import org.lorislab.mechanic.app.ExecutionTarget;
 import org.lorislab.mechanic.app.Parameters;
 import org.lorislab.mechanic.data.ChangeData;
+import org.lorislab.mechanic.data.ExpressionDataService;
+import org.lorislab.mechanic.data.elements.ChangeDataElement;
 import org.lorislab.mechanic.logger.Console;
 
 /**
@@ -49,7 +51,7 @@ public class ValidateTarget extends AbstractUpdateTarget {
             });
         }
     }
-    
+
     @Override
     protected Set<String> processChanges(Parameters parameters, List<ChangeData> changes, Properties properties) {
 
@@ -58,22 +60,28 @@ public class ValidateTarget extends AbstractUpdateTarget {
 
         for (ChangeData change : changes) {
             LOGGER.log(Level.FINE, "[{0}] BEGIN author: {1} profile: {2}", new Object[]{change.getId(), change.getAuthor(), change.getProfile()});
-            List<Path> clis = change.getCliFiles();
-            if (clis == null || clis.isEmpty()) {
-                LOGGER.log(Level.FINE, "[{0}] no CLI files define in the change");
+
+            List<ChangeDataElement> elements = change.getElements();
+            if (elements == null || elements.isEmpty()) {
+                LOGGER.log(Level.FINE, "[{0}] no CLI elements define in the change", change.getId());
             } else {
-                clis.forEach((cli) -> {
+                for (ChangeDataElement element : elements) {
                     try {
-                        loadCli(cli, properties, propertyNames, usedKeys);
+                        List<String> lines = element.createCli();
+                        for (String line : lines) {
+                            ExpressionDataService.processExpressions(line, properties, new HashSet<>(propertyNames), usedKeys);
+                        }
                     } catch (Exception ex) {
-                        LOGGER.log(Level.SEVERE, "[{0}] error reading the CLI file {1}", new Object[]{change.getId(), cli});
-                        throw new RuntimeException("Error reading the CLI file " + cli, ex);
+                        LOGGER.log(Level.SEVERE, "[{0}] error reading the CLI element {1}", new Object[]{change.getId(), element});
+                        throw new RuntimeException("Error reading the CLI element " + element, ex);
                     }
-                });
+                }
+
             }
+
             LOGGER.log(Level.FINE, "[{0}] END author: {1} profile: {2}", new Object[]{change.getId(), change.getAuthor(), change.getProfile()});
         }
         return usedKeys;
     }
-    
+
 }
