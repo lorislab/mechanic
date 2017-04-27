@@ -74,6 +74,7 @@
                         <configuration>
                             <schemaDirectory>src/main/resources/xsd</schemaDirectory>
                             <generateDirectory>src/main/java</generateDirectory>
+                            <episodeFile>src/main/resources/META-INF/sun-jaxb.episode</episodeFile>
                         </configuration>
                         <executions>
                             <execution>
