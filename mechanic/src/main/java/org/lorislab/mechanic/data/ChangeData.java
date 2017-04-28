@@ -15,12 +15,12 @@
  */
 package org.lorislab.mechanic.data;
 
-import java.util.ArrayList;
+import java.nio.file.Path;
+import java.util.LinkedList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.lorislab.mechanic.data.elements.ChangeDataElement;
 
 /**
  *
@@ -41,9 +41,9 @@ public class ChangeData {
     
     private boolean batch = true;
     
-    private List<ChangeDataElement> elements = new ArrayList<>();
+    private List<Path> cliFiles = new LinkedList<>();
     
-    public void addElement(ChangeDataElement data) {
-        elements.add(data);
+    public void addCliFile(Path data) {
+        cliFiles.add(data);
     }
 }

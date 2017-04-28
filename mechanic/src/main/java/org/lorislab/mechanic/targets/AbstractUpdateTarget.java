@@ -49,7 +49,7 @@ public abstract class AbstractUpdateTarget implements ExecutionTarget {
 
     private static final Charset CHAR_SET = Charset.forName("UTF-8");
 
-    
+    private static final Pattern LTRIM = Pattern.compile("\\s+$");
 
     protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
@@ -138,6 +138,27 @@ public abstract class AbstractUpdateTarget implements ExecutionTarget {
         }
 
         return properties;
+    }
+
+    protected List<String> loadCli(final Path cli, final Properties properties, final Set<String> propertiesKeys, final Set<String> usedKeys) throws Exception {
+        List<String> result = new LinkedList<>();
+        try (InputStream sqlStream = Files.newInputStream(cli)) {
+            if (sqlStream != null) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(sqlStream, CHAR_SET))) {
+                    String line = reader.readLine();
+                    while (line != null) {
+                        line = LTRIM.matcher(line).replaceAll("");
+                        line = ExpressionDataService.processExpressions(line, properties, new HashSet<>(propertiesKeys), usedKeys);
+                        result.add(line);
+                        line = reader.readLine();
+                    }
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading the cli file: " + cli, e);
+        }
+
+        return result;
     }
 
 }

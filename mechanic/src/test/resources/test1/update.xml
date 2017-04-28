@@ -8,7 +8,6 @@
         <change id="1" author="test" >
             <cli file="test2.cli" relativePath="true" />
             <cli file="test.cli" relativePath="true" />
-            <addSystemProperty name="xmlProperty" value="${test_parent}" />
         </change>
         
         <include file="include/child2.xml" relativePath="true"/>

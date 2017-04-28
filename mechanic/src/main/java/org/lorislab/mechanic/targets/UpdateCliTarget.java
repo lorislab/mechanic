@@ -28,8 +28,6 @@ import org.lorislab.mechanic.annotation.Target;
 import org.lorislab.mechanic.app.ExecutionTarget;
 import org.lorislab.mechanic.app.Parameters;
 import org.lorislab.mechanic.data.ChangeData;
-import org.lorislab.mechanic.data.ExpressionDataService;
-import org.lorislab.mechanic.data.elements.ChangeDataElement;
 import org.lorislab.mechanic.service.Database;
 import org.lorislab.mechanic.logger.Console;
 
@@ -65,30 +63,34 @@ public class UpdateCliTarget extends AbstractUpdateTarget {
                     List<String> content = new ArrayList<>();
                     content.add("# Change: " + change.getId() + " profile: " + change.getProfile());
                         
-                    
-                    List<ChangeDataElement> elements = change.getElements();
-                    if (elements == null || elements.isEmpty()) {
-                        LOGGER.log(Level.FINE, "[{0}] no CLI elements define in the change", change.getId());
-                        content.add("# No cli elements ");
+                    List<Path> clis = change.getCliFiles();
+                    if (clis == null || clis.isEmpty()) {
+                        LOGGER.log(Level.FINE, "[{0}] no CLI files define in the change", change.getId());
+                        content.add("# No cli files ");
                     } else {
+                        try {
                             found = true;
 
                             if (change.isBatch()) {
                                 content.add("batch");
                             }
                             
-                            for (ChangeDataElement element : elements) {
-                                List<String> lines = element.createCli();
-                                for (String line : lines) {
-                                    String tmp = ExpressionDataService.processExpressions(line, properties, new HashSet<>(propertyNames), usedKeys);
-                                    content.add(tmp);
-                                }
+                            for (Path cli : clis) {
+                                // load the content of the CLI script
+                                content.add("# File: " + cli);
+                                List<String> tmp = loadCli(cli, properties, propertyNames, usedKeys);
+                                content.addAll(tmp);
                             }
 
                             if (change.isBatch()) {
                                 content.add("run-batch");
-                            }    
-                    }                    
+                            }
+                        } catch (Exception ex) {
+                            LOGGER.log(Level.SEVERE, "[{0}] error processing the CLI files", change.getId());
+
+                            throw new RuntimeException("Error processing the CLI file change id: " + change.getId(), ex);
+                        }
+                    }
                     
                     content.forEach((item) -> {
                         Console.info(item);
