@@ -30,30 +30,6 @@
         <xsd:attribute name="relativePath" type="xsd:boolean" />
     </xsd:complexType>
 
-    <!-- SystemPropertyValueType -->
-    <xsd:simpleType name="SystemPropertyValueType">
-        <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="HOST"/>
-            <xsd:enumeration value="SERVER-GROUP"/>
-        </xsd:restriction>
-    </xsd:simpleType>    
-    
-    <!-- SystemPropertyType -->
-    <xsd:complexType name="SystemPropertyType">
-        <xsd:attribute name="name" type="xsd:string" use="required" />
-        <xsd:attribute name="type" type="SystemPropertyValueType" default="SERVER-GROUP" />
-        <xsd:attribute name="type-value" type="xsd:string" />
-    </xsd:complexType>
-
-    <!-- ChangeSystemPropertyType -->
-    <xsd:complexType name="ChangeSystemPropertyType">
-        <xsd:complexContent>
-            <xsd:extension base="SystemPropertyType">
-                <xsd:attribute name="value" type="xsd:string" use="required" />
-            </xsd:extension>
-        </xsd:complexContent>
-    </xsd:complexType>
-
     <!-- Change logs -->
     <xsd:element name="changeLog">
         <xsd:complexType>
@@ -71,11 +47,7 @@
                         <xsd:complexType>
                             <xsd:sequence>
                                 <xsd:choice>
-                                    <xsd:element name="cli" minOccurs="0" maxOccurs="unbounded" type="FileType" />
-                                    <!-- SYSTEM PROPERTY -->
-                                    <xsd:element name="addSystemProperty" minOccurs="0" maxOccurs="unbounded" type="ChangeSystemPropertyType" /> 
-                                    <xsd:element name="removeSystemProperty" minOccurs="0" maxOccurs="unbounded" type="SystemPropertyType" />
-                                    <xsd:element name="updateSystemProperty" minOccurs="0" maxOccurs="unbounded" type="ChangeSystemPropertyType" />                                  
+                                    <xsd:element name="cli" minOccurs="0" maxOccurs="unbounded" type="FileType"></xsd:element>                                    
                                 </xsd:choice>
                             </xsd:sequence>
                             <xsd:attributeGroup ref="changeAttributes"/>
