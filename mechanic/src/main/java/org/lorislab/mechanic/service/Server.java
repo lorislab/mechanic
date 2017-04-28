@@ -69,13 +69,13 @@ public class Server implements AutoCloseable {
                 parameters.getServerClientTimeout());
     }
 
-    public Server(String url, String username, String password, String bind, Integer timeout) {
-        if (url.startsWith("http-remoting")) {
-            connect(url, username, password, bind, timeout);
-            embedded = false;
-        } else {
+    public Server(String url, String username, String password, String bind, Integer timeout) {       
+        if (url.startsWith("embed-server")) {
             connectEmbedded(url);
             embedded = true;
+        } else {
+            connect(url, username, password, bind, timeout);
+            embedded = false;            
         }
     }
 
