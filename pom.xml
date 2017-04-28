@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.lorislab.mechanic</groupId>
     <artifactId>mechanic-parent</artifactId>
-    <version>1.2</version>
+    <version>1.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -28,7 +28,7 @@
         <connection>scm:git:git@github.com:lorislab/mechanic.git</connection>
         <developerConnection>scm:git:git@github.com:lorislab/mechanic.git</developerConnection>
         <url>https://github.com/lorislab/mechanic</url>
-        <tag>1.2</tag>
+        <tag>HEAD</tag>
     </scm>
     
     <modules>
