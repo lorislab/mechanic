@@ -119,4 +119,11 @@
         </profile>
     </profiles>
             
+    <distributionManagement>
+        <repository>
+            <id>bintray</id>
+            <url>https://api.bintray.com/maven/lorislab/maven/mechanic</url>
+        </repository>
+    </distributionManagement>
+                
 </project>
